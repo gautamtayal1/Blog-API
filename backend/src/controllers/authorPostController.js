@@ -2,7 +2,12 @@ const prisma = require("../config/db.config")
 
 const getPost = async(req, res) => {
   try {
-    const posts = await prisma.blog.findMany({})
+    const userId = req.user.id
+    const posts = await prisma.blog.findMany({
+      where: {
+        userId
+      }
+    })
     res.send(posts)
   } catch (error) {
     res.status(500).send("Internet server error")
